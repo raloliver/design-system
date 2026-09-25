@@ -2,12 +2,12 @@
  * File: welcome.stories.ts
  * Project: design-system
  * Created: Friday, September 25th 2026, 7:07:25 pm
- * Last Modified: Friday, September 25th 2026, 7:07:25 pm
+ * Last Modified: Friday, September 25th 2026, 7:29:30 pm
  * Copyright © 2026 AMDE Agência
  */
 
 import type { Meta, StoryObj } from '@storybook/angular';
-import { Button } from '../app/atoms/button/button';
+import { Button } from '../../../app/atoms/button/button';
 
 const meta: Meta = {
   title: 'Welcome',
@@ -39,7 +39,7 @@ const COMPONENTS = [
     name: 'Button',
     tier: 'Atom',
     path: 'src/app/atoms/button',
-    story: 'Atoms/Button',
+    stories: 'src/stories/components/buttons',
     status: 'Documented',
     summary: '7 variants, 4 sizes, 17 inline icons, loading and disabled states.',
   },
@@ -47,7 +47,7 @@ const COMPONENTS = [
     name: 'Molecules',
     tier: 'Molecule',
     path: 'src/app/molecules',
-    story: '—',
+    stories: '—',
     status: 'Not started',
     summary: 'Folder does not exist yet.',
   },
@@ -55,7 +55,7 @@ const COMPONENTS = [
     name: 'Organisms',
     tier: 'Organism',
     path: 'src/app/organisms',
-    story: '—',
+    stories: '—',
     status: 'Not started',
     summary: 'Folder does not exist yet.',
   },
@@ -153,8 +153,8 @@ const COMMANDS = [
 
 const CONVENTIONS = [
   {
-    title: 'One folder per component',
-    body: 'button.ts, button.html, button.scss and button.stories.ts live together under src/app/atoms/<name>/. The story title mirrors that path, e.g. Atoms/Button.',
+    title: 'Code and stories are separated',
+    body: 'Component code sits in src/app/<tier>/<name>/ as name.ts, name.html and name.scss. Stories live apart, in src/stories/components/<name>/, so the catalogue never ships inside a component folder. The story title still mirrors the tier, e.g. Atoms/Button.',
   },
   {
     title: 'File header block',
@@ -252,7 +252,8 @@ export const Home: Story = {
                   <tr>
                     <th class="px-4 py-3 font-semibold">Component</th>
                     <th class="px-4 py-3 font-semibold">Tier</th>
-                    <th class="px-4 py-3 font-semibold">Source</th>
+                    <th class="px-4 py-3 font-semibold">Component source</th>
+                    <th class="px-4 py-3 font-semibold">Story file</th>
                     <th class="px-4 py-3 font-semibold">Status</th>
                     <th class="px-4 py-3 font-semibold">Notes</th>
                   </tr>
@@ -263,6 +264,9 @@ export const Home: Story = {
                       <td class="px-4 py-3 font-semibold text-slate-900">{{ component.name }}</td>
                       <td class="px-4 py-3 text-slate-600">{{ component.tier }}</td>
                       <td class="px-4 py-3 font-mono text-xs text-slate-500">{{ component.path }}</td>
+                      <td class="px-4 py-3 font-mono text-xs text-slate-500">
+                        {{ component.stories }}
+                      </td>
                       <td class="px-4 py-3">
                         @if (component.status === 'Documented') {
                           <span
@@ -285,8 +289,9 @@ export const Home: Story = {
               </table>
             </div>
             <p class="mt-3 text-xs text-slate-400">
-              New components are expected under src/app/&lt;tier&gt;/&lt;name&gt;/ with a matching
-              story title.
+              Component code lives under <code class="rounded bg-slate-100 px-1 py-0.5 font-mono">src/app/&lt;tier&gt;/&lt;name&gt;/</code>
+              and its stories under
+              <code class="rounded bg-slate-100 px-1 py-0.5 font-mono">src/stories/components/&lt;name&gt;/</code>.
             </p>
           </section>
 

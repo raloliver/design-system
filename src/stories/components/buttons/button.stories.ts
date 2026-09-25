@@ -2,12 +2,12 @@
  * File: button.stories.ts
  * Project: design-system
  * Created: Friday, September 25th 2026, 6:29:47 pm
- * Last Modified: Friday, September 25th 2026, 7:04:47 pm
+ * Last Modified: Friday, September 25th 2026, 7:20:00 pm
  * Copyright © 2026 AMDE Agência
  */
 
 import type { Meta, StoryObj } from '@storybook/angular';
-import { Button } from './button';
+import { Button } from '../../../app/atoms/button/button';
 
 const meta: Meta<Button> = {
   title: 'Atoms/Button',
