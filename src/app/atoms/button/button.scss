@@ -2,7 +2,173 @@
  * File: button.scss
  * Project: design-system
  * Created: Friday, August 28th 2026, 9:27:01 am
- * Last Modified: Friday, August 28th 2026, 9:45:25 am
+ * Last Modified: Friday, September 25th 2026, 12:47:27 pm
  * Copyright © 2026 AMDE Agência
  */
 
+@keyframes button-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes button-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  50% {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.1s ease-in-out;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: grayscale(0.5);
+}
+
+button {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+button .opacity-0 {
+  transition: opacity 0.3s ease-in-out;
+}
+
+button.bg-blue-600 {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+button.bg-blue-600:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+}
+
+button.bg-gray-100 {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+button.bg-gray-100:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+button.border-gray-300:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.1) 100%);
+  border-color: #3b82f6;
+}
+
+button.bg-green-600 {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+button.bg-green-600:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+button.bg-red-600 {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+button.bg-red-600:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+@media (prefers-contrast: high) {
+  button {
+    border-width: 2px;
+    box-shadow: 0 0 0 1px currentColor;
+  }
+
+  button:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button,
+  button:hover,
+  button:active,
+  .animate-spin {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  button.bg-gray-100 {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+    color: #f9fafb;
+  }
+
+  button.bg-gray-100:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+  }
+
+  button.border-gray-300 {
+    border-color: #6b7280;
+    color: #f9fafb;
+  }
+
+  button.border-gray-300:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(29, 78, 216, 0.2) 100%);
+  }
+}
