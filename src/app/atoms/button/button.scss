@@ -2,7 +2,7 @@
  * File: button.scss
  * Project: design-system
  * Created: Friday, August 28th 2026, 9:27:01 am
- * Last Modified: Friday, September 25th 2026, 12:47:27 pm
+ * Last Modified: Friday, September 25th 2026, 2:00:34 pm
  * Copyright © 2026 AMDE Agência
  */
 
@@ -32,15 +32,6 @@
   }
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 button:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -48,7 +39,6 @@ button:focus-visible {
 }
 
 .animate-spin {
-  animation: spin 1s linear infinite;
   filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
 }
 
@@ -69,7 +59,6 @@ button:active:not(:disabled) {
 }
 
 button:disabled {
-  cursor: not-allowed;
   opacity: 0.6;
   transform: none !important;
   box-shadow: none !important;
@@ -85,7 +74,6 @@ button {
 }
 
 button svg {
-  flex-shrink: 0;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 

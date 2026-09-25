@@ -41,10 +41,10 @@ const SIZE_CLASSES: Record<ButtonSize, string[]> = {
 };
 
 const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'w-4 h-4',
-  md: 'w-4 h-4',
-  lg: 'w-5 h-5',
-  xl: 'w-6 h-6',
+  sm: 'w-4 h-4 shrink-0',
+  md: 'w-4 h-4 shrink-0',
+  lg: 'w-5 h-5 shrink-0',
+  xl: 'w-6 h-6 shrink-0',
 };
 
 const VARIANT_CLASSES: Record<ButtonVariant, string[]> = {
