@@ -2,15 +2,19 @@
 File: app.html
 Project: design-system
 Created: Friday, August 28th 2026, 9:20:44 am
-Last Modified: Friday, September 25th 2026, 1:41:56 pm
+Last Modified: Friday, September 25th 2026, 1:57:47 pm
 Copyright © 2026 AMDE Agência
 -->
 <div class="flex min-h-dvh flex-col items-center justify-center gap-2">
   <div class="flex flex-wrap items-center justify-center gap-2">
     <app-button label="Small" size="sm" />
-    <app-button label="Medium" variant="ghost" size="md" />
-    <app-button label="Large" variant="ghost" size="lg" />
-    <app-button label="X-Large" variant="ghost" size="xl" />
+    <app-button label="Medium" variant="info" size="md" />
+    <app-button label="Large" variant="info" size="lg" />
+    <app-button label="X-Large" variant="info" size="xl" />
+  </div>
+
+  <div class="flex flex-wrap items-center justify-center gap-2">
+    <app-button label="Loading" [loading]="true" variant="outline" />
   </div>
 
   <div class="flex flex-wrap items-center justify-center gap-2">
@@ -18,7 +22,7 @@ Copyright © 2026 AMDE Agência
     <app-button label="Secondary" variant="secondary" />
     <app-button label="Danger" variant="danger" />
     <app-button label="Outline" variant="outline" />
-    <app-button label="Ghost" variant="ghost" />
+    <app-button label="Info" variant="info" />
     <app-button label="Success" variant="success" />
     <app-button label="Warning" variant="warning" />
   </div>

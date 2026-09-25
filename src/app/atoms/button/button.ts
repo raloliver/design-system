@@ -2,7 +2,7 @@
  * File: button.ts
  * Project: design-system
  * Created: Friday, August 28th 2026, 9:27:01 am
- * Last Modified: Friday, September 25th 2026, 1:30:19 pm
+ * Last Modified: Friday, September 25th 2026, 1:57:11 pm
  * Copyright © 2026 AMDE Agência
  */
 
@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
 type ButtonVariant =
-  'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success' | 'warning';
+  'primary' | 'secondary' | 'outline' | 'info' | 'danger' | 'success' | 'warning';
 
 const BASE_CLASSES = [
   'inline-flex',
@@ -76,7 +76,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string[]> = {
     'hover:border-blue-700',
     'focus:ring-blue-500',
   ],
-  ghost: [
+  info: [
     'bg-transparent',
     'text-gray-700',
     'border-transparent',
