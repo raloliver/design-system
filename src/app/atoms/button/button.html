@@ -2,7 +2,7 @@
 File: button.html
 Project: design-system
 Created: Friday, August 28th 2026, 9:27:01 am
-Last Modified: Friday, September 25th 2026, 1:55:57 pm
+Last Modified: Friday, September 25th 2026, 9:28:30 pm
 Copyright © 2026 AMDE Agência
 -->
 
@@ -15,7 +15,6 @@ Copyright © 2026 AMDE Agência
   [attr.aria-busy]="loading()"
   [attr.aria-disabled]="isInactive()"
 >
-  <!-- Loading spinner -->
   @if (loading()) {
     <svg
       class="animate-spin -ml-1 mr-2"
@@ -40,7 +39,6 @@ Copyright © 2026 AMDE Agência
     </svg>
   }
 
-  <!-- Left icon -->
   @if (showLeftIcon()) {
     <svg
       [class]="iconClasses()"
@@ -58,12 +56,10 @@ Copyright © 2026 AMDE Agência
     </svg>
   }
 
-  <!-- Button label -->
   <span [class]="loading() ? 'opacity-50' : ''">
     {{ label() }}
   </span>
 
-  <!-- Right icon -->
   @if (showRightIcon()) {
     <svg
       [class]="iconClasses()"
