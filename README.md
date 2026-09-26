@@ -3,7 +3,7 @@
 An Angular design system built with Tailwind CSS v4, published as a standalone npm package.
 
 Component library, design tokens, and a Storybook catalogue for building consistent product
-interfaces at [AMDE Agência](https://github.com/raloliver/design-system).
+interfaces at [AMDE Agência](https://github.com/amdebr).
 
 [![Angular](https://img.shields.io/badge/Angular-21.2-DD0031?logo=angular&logoColor=white)](https://angular.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
