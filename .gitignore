@@ -46,3 +46,6 @@ Thumbs.db
 
 *storybook.log
 storybook-static
+
+# Storybook
+/storybook-static
