@@ -8,6 +8,7 @@
 
 import type { Meta, StoryObj } from '@storybook/angular';
 import { Button } from '../../../app/atoms/button/button';
+import { name, version } from '../../../../package.json';
 
 const meta: Meta = {
   title: 'Welcome',
@@ -26,6 +27,7 @@ export default meta;
 type Story = StoryObj;
 
 const STACK = [
+  { label: 'Package', value: `${name} v${version}`, detail: 'read from package.json' },
   { label: 'Framework', value: 'Angular 21.2', detail: 'standalone, signals, zoneless-ready' },
   { label: 'Language', value: 'TypeScript 5.9', detail: 'strict mode' },
   { label: 'Styling', value: 'Tailwind CSS 4.3', detail: 'CSS-first @theme, no JS config' },
@@ -145,9 +147,18 @@ const FAMILIES = [
 ];
 
 const COMMANDS = [
-  { run: 'npm start', does: 'Dev server on http://localhost:4200 with the live component gallery in src/app/app.html.' },
-  { run: 'npm run storybook', does: 'This catalogue on http://localhost:6006 (ng run design-system:storybook).' },
-  { run: 'npm run build-storybook', does: 'Static export to storybook-static/, with Compodoc running first.' },
+  {
+    run: 'npm start',
+    does: 'Dev server on http://localhost:4200 with the live component gallery in src/app/app.html.',
+  },
+  {
+    run: 'npm run storybook',
+    does: 'This catalogue on http://localhost:6006 (ng run design-system:storybook).',
+  },
+  {
+    run: 'npm run build-storybook',
+    does: 'Static export to storybook-static/, with Compodoc running first.',
+  },
   { run: 'npm test', does: 'Unit tests via the @angular/build:unit-test builder.' },
 ];
 

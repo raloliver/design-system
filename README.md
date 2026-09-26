@@ -23,11 +23,11 @@ interfaces at [AMDE Agência](https://github.com/raloliver/design-system).
 
 |            |                                            |
 | ---------- | ------------------------------------------ |
-| Version    | `0.0.0` (unpublished)                      |
+| Version    | `0.1.0` (unpublished)                      |
 | Angular    | 21.2 (peer range)                          |
 | Components | 1 documented (`Button`) — more in progress |
 | Tokens     | 50 colour tokens across 5 families         |
-| Stories    | 25 across 2 files                          |
+| Stories    | 26 across 3 files                          |
 | Tests      | Not yet configured                         |
 
 ---
@@ -42,8 +42,9 @@ interfaces at [AMDE Agência](https://github.com/raloliver/design-system).
 | Language        | **TypeScript 5.9**                        | `strict`, `strictTemplates`, `noImplicitOverride`, `noPropertyAccessFromIndexSignature` |
 | Styling         | **Tailwind CSS 4.3**                      | CSS-first config via `@theme` — there is no `tailwind.config.js`                        |
 | Build           | `@angular/build` (esbuild)                | `module: preserve`, `target: ES2022`                                                    |
-| Catalogue       | **Storybook 10.6** (`@storybook/angular`) | Addons: a11y, docs, links                                                               |
+| Catalogue       | **Storybook 10.6** (`@storybook/angular`) | Addons: a11y, docs, links. Version read from `package.json`                             |
 | API docs        | **Compodoc 2.0**                          | Auto-generated to `documentation.json`, consumed by the Storybook docs addon            |
+| Changelog       | **Keep a Changelog**                      | `CHANGELOG.md` at the root, rendered as a Storybook page and by npm                     |
 | Package manager | npm 10.8                                  | `packageManager` pinned                                                                 |
 | Editor          | Prettier 3.8 + EditorConfig               | `printWidth: 100`, single quotes, 2-space indent                                        |
 
@@ -308,9 +309,13 @@ blocks are the same cascade layer, your values win.
 ```
 design-system/
 ├── .storybook/                  # Storybook config (webpack5 builder + Compodoc wiring)
+│   ├── main.ts                  # stories glob, addons, framework
+│   ├── preview.ts               # Compodoc JSON, controls, story sort, package parameters
+│   └── manager.ts               # sidebar wordmark: package name + version
 ├── public/                      # Static assets copied verbatim
 ├── src/
 │   ├── styles.scss              # Tailwind import + the entire @theme token block
+│   ├── typings.d.ts             # declares that a `*.md` import resolves to a string
 │   ├── index.html
 │   ├── main.ts                  # bootstrapApplication(App, appConfig)
 │   ├── app/                     # Dev playground application
@@ -321,9 +326,12 @@ design-system/
 │   │       └── button/          # button.ts, button.html, button.scss
 │   └── stories/
 │       ├── components/buttons/  # button.stories.ts
-│       └── pages/welcome/       # welcome.stories.ts — project status dashboard
+│       └── pages/
+│           ├── welcome/         # welcome.stories.ts — project status dashboard
+│           └── changelog/       # changelog.stories.ts — renders CHANGELOG.md
 ├── angular.json                 # build, serve, test, storybook targets
 ├── tsconfig*.json               # strict TS + Angular compiler options
+├── CHANGELOG.md                 # Keep a Changelog — single source of truth for releases
 └── documentation.json           # Compodoc output, consumed by Storybook docs
 ```
 
@@ -356,8 +364,12 @@ npm install
 | `npm run build`           | `ng build`                                     | Production build into `dist/design-system`                            |
 | `npm run watch`           | `ng build --watch --configuration development` | Incremental unoptimized rebuild                                       |
 | `npm test`                | `ng test`                                      | Unit tests via `@angular/build:unit-test` (Vitest) — **no specs yet** |
+| `npm run typecheck`       | `tsc -p .storybook/tsconfig.json --noEmit`     | Type-checks app code, stories, and the Storybook config               |
 | `npm run storybook`       | `ng run design-system:storybook`               | Storybook on `http://localhost:6006`                                  |
 | `npm run build-storybook` | `ng run design-system:build-storybook`         | Static Storybook into `storybook-static/`                             |
+| `npm run version:patch`   | `npm version patch`                            | Bump `0.1.0` → `0.1.1`, commit, and tag                               |
+| `npm run version:minor`   | `npm version minor`                            | Bump `0.1.0` → `0.2.0`, commit, and tag                               |
+| `npm run version:major`   | `npm version major`                            | Bump `0.1.0` → `1.0.0`, commit, and tag                               |
 | `npm run ng`              | `ng`                                           | Pass-through to the Angular CLI                                       |
 
 Both Storybook targets run **Compodoc** first and write `documentation.json` to the repo root, so
@@ -375,19 +387,46 @@ change without opening Storybook.
 npm run storybook
 ```
 
-- **Welcome** story is a project dashboard: stack, component inventory, every colour swatch, the
-  coding conventions, available commands, and a list of known gaps.
+- **Welcome** story is a project dashboard: package name and version, stack, component inventory,
+  every colour swatch, the coding conventions, available commands, and a list of known gaps.
+- **Changelog** renders `CHANGELOG.md` as a docs-only page. The file is imported as a raw string
+  (Storybook's webpack config maps `.md` to `asset/source`) and converted with `marked`, so the
+  page can never drift from the file on GitHub or the notes npm shows.
 - **Atoms/Button** documents all 24 stories — one per variant and size, icon placement, icon-only,
   disabled, loading, submit/reset, full width, plus composed patterns (`SaveAndCancel`,
   `ActionButtons`, `SizeComparison`, `VariantShowcase`).
 - `@storybook/addon-a11y` is registered, so every story is scanned in the a11y panel.
 
+The version appears in three places, all derived from the single `version` field in
+`package.json` — there is no second copy to forget:
+
+| Where                   | How                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------ |
+| Sidebar header wordmark | `.storybook/manager.ts` reads `package.json` at build time and passes `brandTitle` to `create()` |
+| Welcome dashboard       | The first row of the stack table                                                                 |
+| Changelog page header   | Rendered above the imported markdown                                                             |
+
+> There is no toolbar version tag. The community `storybook-version` addon was evaluated and
+> rejected: its own manifest declares `"unsupportedFrameworks": ["vue", "angular"]`, its tag is a
+> React component, and its CJS `manager` entry fails to resolve under Storybook 10's esbuild
+> bundler. The sidebar wordmark covers the same need with zero dependencies.
+
 ### Type checking
 
 `tsconfig.json` is strict across the board — `strict`, `strictTemplates`, `noImplicitOverride`,
 `noPropertyAccessFromIndexSignature`, `noImplicitReturns`, `noFallthroughCasesInSwitch`,
-`isolatedModules`. `ng build` type-checks the stories too, so Storybook files are held to the same
-standard as the library.
+`isolatedModules`.
+
+`tsconfig.app.json` covers all of `src/**/*.ts`, stories included, so `ng build` type-checks the
+whole catalogue. The Changelog page imports `CHANGELOG.md`, which has no loader in the esbuild
+application builder — that is fine, because `main.ts` never reaches a story, so the import is
+type-checked but never bundled. TypeScript needs to know a `.md` import resolves to a string, which
+`src/typings.d.ts` declares for the whole project.
+
+`npm run typecheck` runs `tsc` against `.storybook/tsconfig.json` instead. That config exists to
+cover the two Storybook entry points — `preview.ts` and `manager.ts` — which live outside `src/` and
+are therefore not in any application project. It is the check to run before opening a pull request,
+since `ng build` alone will not catch a mistake in either file.
 
 ### Formatting
 
@@ -420,6 +459,58 @@ npx prettier --write .
 
 ---
 
+## Versioning and releases
+
+The project follows [Semantic Versioning](https://semver.org/) and
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/). `CHANGELOG.md` at the repo root is the
+single source of truth for release notes — the Storybook **Changelog** page and the npm package page
+both render it, so notes are never written twice.
+
+### Between releases
+
+Add work to the `## [Unreleased]` section of `CHANGELOG.md` as you go, grouped under
+`### Added`, `### Changed`, `### Fixed`, `### Deprecated`, or `### Removed`. Commit it as you would
+any other change. Nothing else needs to happen until you are ready to cut a release.
+
+### Cutting a release
+
+```bash
+# 1. Rename "## [Unreleased]" to "## 0.2.0" in CHANGELOG.md, add today's date,
+#    and add a fresh empty "## [Unreleased]" section above it.
+#    Also update the compare links at the bottom of the file.
+npx prettier --write CHANGELOG.md
+
+# 2. Commit the changelog.
+git add CHANGELOG.md
+git commit -m "Changelog: 0.2.0"
+
+# 3. Bump package.json, commit, and tag. npm refuses to run if the tree is dirty,
+#    which is what forces step 2 to happen first.
+npm run version:minor
+
+# 4. Verify, then publish.
+npm run typecheck
+npm run build-storybook
+npm publish
+git push --follow-tags
+```
+
+`npm run version:minor` delegates to `npm version`, which updates the `version` field in both
+`package.json` and `package-lock.json`, creates a release commit, and tags it `v0.2.0`. Use
+`version:patch` for a bug fix and `version:major` for a breaking change — a major bump here should
+always coincide with renaming the selector prefix or changing an input's type or default.
+
+A `prepublishOnly` script runs `npm run typecheck`, so a publish cannot ship a build that does not
+compile.
+
+### What a release gives you for free
+
+Because every version display reads `package.json`, cutting a release updates the sidebar wordmark,
+the Welcome dashboard, and the Changelog page header on the next Storybook build. There is no
+version string to find and update by hand anywhere else.
+
+---
+
 ## Roadmap to publication
 
 Everything below is required before `npm publish` will succeed. Items are ordered roughly by
@@ -432,16 +523,17 @@ dependency.
 - [ ] Create `ng-package.json` with a `dest` and an allow-list of entry points
 - [ ] Add a `public-api.ts` barrel — there is **no** public entry point today, so nothing is
       importable from the package root
-- [ ] Replace `"private": true` and the placeholder `"version": "0.0.0"`
+- [ ] Replace `"private": true` (the `0.1.0` version is already set)
 - [ ] Add `peerDependencies` for `@angular/core` and `@angular/common`; move the Angular packages
       from `dependencies` to `peerDependencies`
 - [ ] Add `exports`, `main`, `module`, `types`, `sideEffects`, `files`, and `publishConfig` to
       `package.json`
 - [ ] Expose the stylesheet as a subpath export (`@amde/design-system/theme.css`) so the `@theme`
       tokens are reachable
-- [ ] Add `LICENSE` (MIT), `CHANGELOG.md`, and `CONTRIBUTING.md`
+- [ ] Add `LICENSE` (MIT) and `CONTRIBUTING.md` — `CHANGELOG.md` already exists
 - [ ] Add `repository`, `bugs`, `homepage`, `keywords`, `author`, `description`, and `engines` fields
 - [ ] Exclude `documentation.json` (54 KB of generated output) from the published tarball
+- [ ] Enable the npm two-factor requirement and confirm the publish token has the right access
 
 ### API quality
 
@@ -478,11 +570,13 @@ enforced by code review, not tooling.
 1. Fork the repository and create a feature branch.
 2. Add or update the component under the correct atomic tier.
 3. Register every variant, size, and state in Storybook with `autodocs`.
-4. Run `npm run build` to verify strict type checking and template type checking pass.
-5. Run `npx prettier --write .` and open a pull request describing the change and its rationale.
+4. Add a `## [Unreleased]` bullet to `CHANGELOG.md` describing the change, if it is user-facing.
+5. Run `npm run typecheck` and `npm run build` — together they cover the app, the stories, the
+   Storybook entry points, strict template type checking, and the production bundle.
+6. Run `npx prettier --write .` and open a pull request describing the change and its rationale.
 
 Component commits follow the pattern `Atom Button: <what changed and why>`. Stories and docs
-commits use `Storybook <what was documented>`.
+commits use `Storybook <what was documented>`. Changelog edits use `Changelog: <what changed>`.
 
 ---
 
