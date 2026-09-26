@@ -5,7 +5,7 @@ An Angular design system built with Tailwind CSS v4, published as a standalone n
 Component library, design tokens, and a Storybook catalogue for building consistent product
 interfaces at [AMDE Agência](https://github.com/raloliver/design-system).
 
-[![Angular](https://img.shields.io/badge/Angular-21.2- DD0031?logo=angular&logoColor=white)](https://angular.dev)
+[![Angular](https://img.shields.io/badge/Angular-21.2-DD0031?logo=angular&logoColor=white)](https://angular.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Storybook](https://img.shields.io/badge/Storybook-10.6-FF4785?logo=storybook&logoColor=white)](https://storybook.js.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
